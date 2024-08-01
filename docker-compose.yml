@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # db:
+  #   image: mysql:8.0
+  #   environment:
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: supra123
+  #     MYSQL_ROOT_PASSWORD: rootsupra123
+  #   volumes:
+  #     - db-data:/var/lib/mysql
+  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   ports:
+  #     - "3306:3306"
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   environment:
+  #     PMA_HOST: db
+  #     PMA_USER: root
+  #     PMA_PASSWORD: rootsupra123
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - db
+    
+  backend:
+    build: https://github.com/suprarbarber/ms_backend_suprabarber.git
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: rootsupra123
+      MYSQL_DB: suprabarber
+      TOKEN_PRIVATEKEY: DSTGEYEWFEDTYFWVEDEGY
+      TOKEN_EXPIRES_IN: 1h
+    ports:
+      - "3002:3002"
+    # depends_on:
+    #   - db
+
+  frontend:
+    build: https://github.com/suprarbarber/ms_frontend_supra.git 
+    environment:
+      BACKEND_URL: http://localhost:3012
+    ports:
+      - "7000:7000"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
