@@ -43,7 +43,7 @@ services:
   frontend:
     build: https://github.com/suprarbarber/ms_frontend_supra.git 
     environment:
-      BACKEND_URL: http://localhost:3012
+      BACKEND_URL: http://backend:3002
     ports:
       - "7000:7000"
     depends_on:
